@@ -1,26 +1,26 @@
 class Upster < Formula
   desc "CLI client for the local Upster control plane"
   homepage "https://github.com/kerddotdev/upster"
-  version "0.1.0"
+  version "1.0.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/kerddotdev/upster/releases/download/v#{version}/upster-macos-arm64.tar.gz"
-      sha256 "41b7b4e95573ce91392091410feec04aab5a5f9ac8f0ff3d4df07ee73c684e29"
+      sha256 "892fa54485c108403721187c954f7ea5ce840da0ff1f26c17a571e13357fad04"
     else
       url "https://github.com/kerddotdev/upster/releases/download/v#{version}/upster-macos-x64.tar.gz"
-      sha256 "8d43b419246d7f89b99968627575cee927fab766a0c7f61dbfdd870f4e5c2b75"
+      sha256 "1dc0815c9e6b1219391eb8a05eeec7e1cd3b789f8ca3dc383ec06e1decdd4161"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/kerddotdev/upster/releases/download/v#{version}/upster-linux-arm64.tar.gz"
-      sha256 "e1ea3b97c96ae5147db4a9429372d3ee49001c787311231011fc15d389375819"
+      sha256 "5ba7bbb9123396454bab3a23ac9f7b6f3fedf1899935e77267af0e908d7ced57"
     else
       url "https://github.com/kerddotdev/upster/releases/download/v#{version}/upster-linux-x64.tar.gz"
-      sha256 "1a755ca331cdad5b37c4bfb781ea8f04d048830e65e23f24fc2b6c19d1543cd2"
+      sha256 "ca53871bcdadeb4fbe9de764190bf7152bc4ae8d265ed42bcd12126323ee0813"
     end
   end
 
