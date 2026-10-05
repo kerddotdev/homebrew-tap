@@ -12,6 +12,12 @@ on:
       sha256_x64:
         description: "SHA256 of wd-macos-x64.tar.gz"
         required: true
+      sha256_linux_arm64:
+        description: "SHA256 of wd-linux-arm64.tar.gz"
+        required: false
+      sha256_linux_x64:
+        description: "SHA256 of wd-linux-x64.tar.gz"
+        required: false
 
 jobs:
   update:
@@ -26,20 +32,27 @@ jobs:
           VERSION: ${{ github.event.inputs.version }}
           ARM64_SHA: ${{ github.event.inputs.sha256_arm64 }}
           X64_SHA: ${{ github.event.inputs.sha256_x64 }}
+          LINUX_ARM64_SHA: ${{ github.event.inputs.sha256_linux_arm64 }}
+          LINUX_X64_SHA: ${{ github.event.inputs.sha256_linux_x64 }}
         run: |
-          sed -i "s/version \".*\"/version \"$VERSION\"/" Formula/wd.rb
-
-          awk -v arm_sha="$ARM64_SHA" -v x64_sha="$X64_SHA" '
-            /Hardware::CPU.arm\?/ { in_arm=1 }
-            /else/ { in_arm=0; in_x64=1 }
-            /sha256 / {
-              if (in_arm) {
-                sub(/sha256 ".*"/, "sha256 \"" arm_sha "\"")
-                in_arm=0
-              } else if (in_x64) {
-                sub(/sha256 ".*"/, "sha256 \"" x64_sha "\"")
-                in_x64=0
+          awk -v release_version="$VERSION" \
+            -v arm_sha="$ARM64_SHA" -v x64_sha="$X64_SHA" \
+            -v linux_arm_sha="$LINUX_ARM64_SHA" -v linux_x64_sha="$LINUX_X64_SHA" '
+            /^[[:space:]]*version "/ {
+              sub(/version ".*"/, "version \"" release_version "\"")
+            }
+            /on_macos do/ { platform="macos" }
+            /on_linux do/ { platform="linux" }
+            /Hardware::CPU.arm\?/ { arch="arm64" }
+            /^[[:space:]]*else$/ { arch="x64" }
+            /^[[:space:]]*sha256 / {
+              sha=""
+              if (platform == "macos") {
+                sha=(arch == "arm64" ? arm_sha : x64_sha)
+              } else if (platform == "linux") {
+                sha=(arch == "arm64" ? linux_arm_sha : linux_x64_sha)
               }
+              if (sha != "") sub(/sha256 ".*"/, "sha256 \"" sha "\"")
             }
             { print }
           ' Formula/wd.rb > Formula/wd.rb.tmp && mv Formula/wd.rb.tmp Formula/wd.rb
