@@ -1,26 +1,26 @@
 class Wd < Formula
   desc "Workspace Director - fast project navigation CLI"
   homepage "https://github.com/kerddotdev/wd"
-  version "1.4.0"
+  version "1.4.1"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/kerddotdev/wd/releases/download/v#{version}/wd-macos-arm64.tar.gz"
-      sha256 "c3b1460c09bb023468633aace889d17b022634bbafb283994d9f49115afa7c48"
+      sha256 "fb8f4ae2e7d30e990c4e9f9a6b73c335b95f89aea4522d69da65946c15df0247"
     else
       url "https://github.com/kerddotdev/wd/releases/download/v#{version}/wd-macos-x64.tar.gz"
-      sha256 "1b579fb79c35c3c3105eb6774483e356a91c827621f84a443ff7f749180ae3e7"
+      sha256 "70806255c9eada7eb247590193046d47a5cdbf0d5968822b82b117343d7bdc75"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/kerddotdev/wd/releases/download/v#{version}/wd-linux-arm64.tar.gz"
-      sha256 "4fba4ea7802cb931a6e23cf030f56cbf95e483b607f9f80817ee525d02966845"
+      sha256 "146fc1522ccd886c54a7290a92eacf6966098ab21eb5b231d19222bfa99dbcab"
     else
       url "https://github.com/kerddotdev/wd/releases/download/v#{version}/wd-linux-x64.tar.gz"
-      sha256 "4ace602edfab1dcbb60d7af72e0d74353e10e6ae8258968965ce6befb442f736"
+      sha256 "89304d8dc06546100d7a1722b67275e75d9cbbc04bb6e5dcc9b43ca9dae74ec4"
     end
   end
 
